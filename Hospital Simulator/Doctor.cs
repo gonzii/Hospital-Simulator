@@ -9,14 +9,39 @@ namespace Hospital_Simulator
     enum Roles
     {
         Oncologist,
-        General_Practitioner
+        GeneralPractitioner
     };
     class Doctor
     {
-        private string name;
+        public List<Roles> _roles;
+
+        public Doctor(string name)
+        {
+            Name = name;
+            _roles = new List<Roles>();
+        }
+     //   private string _name;
 
         public string Name { get; internal set; }
-        public Roles Role { get; set; }
+       // public List<Roles> Role { get; set; }
+        
+        
+        public List<Doctor> GetDoctorToPatient(Patient patient, List<Doctor> doctorList)
+        {
+            if (patient.Condition == Condition.HeadNeckCancer || patient.Condition == Condition.BreastCancer)
+            {
+                var doctors = doctorList.Where(x => x._roles.Any(m => m == Roles.Oncologist)).ToList();
+                //doctorList.Select(x => x._roles.Contains(Roles.Oncologist));
+                //doctorList.Any(x => x._roles.Contains(Roles.Oncologist));
+                return doctors;
+            }
+            else
+            {
+                var doctors = doctorList.Where(x => x._roles.Any(m => m == Roles.GeneralPractitioner)).ToList();
+                return doctors;
+            }
+        }
+
 
     }
 }

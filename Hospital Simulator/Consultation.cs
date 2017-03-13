@@ -9,18 +9,18 @@ namespace Hospital_Simulator
 {
     class Consultation
     {
-        private Patient name;
-        private Doctor doctor;
-        private TreatmentRooms treatmentRoom;
-        private DateTime registrationDate;
-        private DateTime consultationDate;
+        private Patient _name;
+        private Doctor _doctor;
+        private TreatmentRoom _treatmentRoom;
+        private DateTime _registrationDate;
+        private DateTime _consultationDate;
 
-        public Consultation(Patient name, Doctor doctor, TreatmentRooms treatmentRooms, DateTime registrationDate)
+        public Consultation(Patient name, Doctor doctor, TreatmentRoom treatmentRooms, DateTime registrationDate)
         {
-            this.name = name;
-            this.doctor = doctor;
-            this.treatmentRoom = treatmentRooms;
-            this.registrationDate = DateTime.Now;
+            this._name = name;
+            this._doctor = doctor;
+            this._treatmentRoom = treatmentRooms;
+            this._registrationDate = DateTime.Now;
         }
 
 
