@@ -1,0 +1,1 @@
+c:\users\gonzalo.fuentes\documents\visual studio 2015\Projects\Hospital Simulator\Hospital Simulator\bin\Debug\Hospital Simulator.exe.config
