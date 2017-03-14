@@ -16,7 +16,7 @@ namespace Hospital_Simulator
 
         public static void Main(string[] args)
         {
-            IEnumerable<Consultation> consultation = new List<Consultation>();
+            IEnumerable<Consultation> consultations = new List<Consultation>();
 
             // Get Patients using readme file
             Patient patientX = new Patient()
@@ -103,7 +103,10 @@ namespace Hospital_Simulator
 
             var myDoctors = doctors[0].GetDoctorToPatient(patientX, doctors);
             var myTreatmentRoom = treatmentRooms[0].GetMyTreatmentRoom(patientX, treatmentRooms);
-
+            foreach (var consultation in consultations)
+            {
+                
+            }
         }
 
     }

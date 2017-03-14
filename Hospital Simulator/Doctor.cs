@@ -20,11 +20,8 @@ namespace Hospital_Simulator
             Name = name;
             _roles = new List<Roles>();
         }
-     //   private string _name;
 
-        public string Name { get; internal set; }
-       // public List<Roles> Role { get; set; }
-        
+        public string Name { get; internal set; }      
         
         public List<Doctor> GetDoctorToPatient(Patient patient, List<Doctor> doctorList)
         {

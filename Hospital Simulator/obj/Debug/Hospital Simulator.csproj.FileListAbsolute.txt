@@ -1,2 +1,7 @@
 c:\users\gonzalo.fuentes\documents\visual studio 2015\Projects\Hospital Simulator\Hospital Simulator\bin\Debug\Hospital Simulator.exe.config
 C:\Users\gonzi\Source\Repos\Hospital-Simulator\Hospital Simulator\obj\Debug\Hospital Simulator.csprojResolveAssemblyReference.cache
+C:\Users\gonzalo.fuentes\Documents\Visual Studio 2015\Projects\Hospital Simulator\Hospital Simulator\bin\Debug\Hospital Simulator.exe
+C:\Users\gonzalo.fuentes\Documents\Visual Studio 2015\Projects\Hospital Simulator\Hospital Simulator\bin\Debug\Hospital Simulator.pdb
+C:\Users\gonzalo.fuentes\Documents\Visual Studio 2015\Projects\Hospital Simulator\Hospital Simulator\obj\Debug\Hospital Simulator.csprojResolveAssemblyReference.cache
+C:\Users\gonzalo.fuentes\Documents\Visual Studio 2015\Projects\Hospital Simulator\Hospital Simulator\obj\Debug\Hospital Simulator.exe
+C:\Users\gonzalo.fuentes\Documents\Visual Studio 2015\Projects\Hospital Simulator\Hospital Simulator\obj\Debug\Hospital Simulator.pdb
