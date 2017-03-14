@@ -10,36 +10,35 @@ namespace Hospital_Simulator
     {
         private string _name;
 
-        // unique name
         public string Name {
             get { return _name; }
             set { _name = value; }
         }
         public TreatmentMachine TreatmentMachine { get; internal set; }
 
-        public List<TreatmentRoom> GetMyTreatmentRoom(Patient patient, List<TreatmentRoom> treatmentRoomList)
-        {
-            if (patient.Condition == Condition.HeadNeckCancer)
-            {
+        //public List<TreatmentRoom> GetMyTreatmentRoom(Patient patient, List<TreatmentRoom> treatmentRoomList)
+        //{
+        //    if (patient.Condition == Condition.HeadNeckCancer)
+        //    {
              
-                var treatmentRooms = 
-                    treatmentRoomList.Where(x => x.TreatmentMachine !=null && x.TreatmentMachine.Capability == Capability.Advanced).ToList();
-                return treatmentRooms;
+        //        var treatmentRooms = 
+        //            treatmentRoomList.Where(x => x.TreatmentMachine !=null && x.TreatmentMachine.Capability == Capability.Advanced).ToList();
+        //        return treatmentRooms;
                 
 
-                //var doctors = doctorList.Where(x => x._roles.Any(m => m == Roles.Oncologist)).ToList();
-            }
-            else if (patient.Condition == Condition.BreastCancer)
-            {
-                var treatmentRooms =
-                    treatmentRoomList.Where(x => x.TreatmentMachine != null && x.TreatmentMachine.Capability == Capability.Simple).ToList();
-                return treatmentRooms;
-            }
-            else
-            {
-                var treatmentRooms = treatmentRoomList.Where(x => x.TreatmentMachine == null).ToList();
-                return treatmentRooms;
-            }
-        }
+        //        //var doctors = doctorList.Where(x => x._roles.Any(m => m == Roles.Oncologist)).ToList();
+        //    }
+        //    else if (patient.Condition == Condition.BreastCancer)
+        //    {
+        //        var treatmentRooms =
+        //            treatmentRoomList.Where(x => x.TreatmentMachine != null && x.TreatmentMachine.Capability == Capability.Simple).ToList();
+        //        return treatmentRooms;
+        //    }
+        //    else
+        //    {
+        //        var treatmentRooms = treatmentRoomList.Where(x => x.TreatmentMachine == null).ToList();
+        //        return treatmentRooms;
+        //    }
+        //}
     }
 }

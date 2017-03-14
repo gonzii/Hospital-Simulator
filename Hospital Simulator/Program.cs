@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -9,22 +10,84 @@ namespace Hospital_Simulator
 {
     class Program
     {
-
-
-        //public static List<Doctor> doctors;
-
-
+        /// <summary>
+        /// Method reetrieving a list of possible treatment rooms for the patient
+        /// </summary>
+        /// <param name="patient">the patient</param>
+        /// <param name="treatmentRoomList">List of all treament rooms</param>
+        /// <returns>List of possible treatment rooms</returns>
+        static List<TreatmentRoom> GetMyTreatmentRoom(Patient patient, List<TreatmentRoom> treatmentRoomList)
+        {
+            if (patient.Condition == Condition.HeadNeckCancer)
+            {
+                var mytreatmentRooms =
+                    treatmentRoomList.Where(x => x.TreatmentMachine != null && x.TreatmentMachine.Capability == Capability.Advanced).ToList();
+                return mytreatmentRooms;
+            }
+            else if (patient.Condition == Condition.BreastCancer)
+            {
+                var mytreatmentRooms =
+                    treatmentRoomList.Where(x => x.TreatmentMachine != null && x.TreatmentMachine.Capability == Capability.Simple).ToList();
+                return mytreatmentRooms;
+            }
+            else
+            {
+                var mytreatmentRooms = treatmentRoomList.Where(x => x.TreatmentMachine == null).ToList();
+                return mytreatmentRooms;
+            }
+        }
+        /// <summary>
+        /// Method retrieving a list of possible doctors for the patient
+        /// </summary>
+        /// <param name="patient">the patient</param>
+        /// <param name="doctorList">List of all doctors</param>
+        /// <returns>List of possible doctors </returns>
+        static List<Doctor> GetDoctorToPatient(Patient patient, List<Doctor> doctorList)
+        {
+            if (patient.Condition == Condition.HeadNeckCancer || patient.Condition == Condition.BreastCancer)
+            {
+                var mydoctors = doctorList.Where(x => x._roles.Any(m => m == Roles.Oncologist)).ToList();
+                return mydoctors;
+            }
+            else
+            {
+                var mydoctors = doctorList.Where(x => x._roles.Any(m => m == Roles.GeneralPractitioner)).ToList();
+                return mydoctors;
+            }
+        }
+      
         public static void Main(string[] args)
         {
-     
-            // Get Patients using readme file
-            Patient patientX = new Patient()
+            // Reading text file with entry 
+            // PatientName|Condition
+            StringBuilder sb = new StringBuilder();
+            List<Patient> patients = new List<Patient>();
+            List<string> patientlist = new List<string>();
+            using (StreamReader sr = new StreamReader(@"D:\test.txt"))
             {
-                Name = "Hanna",
-                Condition = Condition.HeadNeckCancer
-            };
-
-            // The Doctors
+                while (sr.Peek() >= 0)
+                {
+                    patientlist.Add(sr.ReadLine());
+                }
+            }
+            for (int i = 0; i <patientlist.Count; i++)
+            {
+                string[] str = patientlist[i].Split('|');
+                switch (str[1])
+                {
+                    case "HeadNeckCancer":
+                        patients.Add(new Patient() { Name = str[0] , Condition = Condition.HeadNeckCancer});          
+                        break;
+                    case "BreastCancer":
+                        patients.Add(new Patient() { Name = str[0], Condition = Condition.BreastCancer });
+                        break;
+                    case "Flu":
+                        patients.Add(new Patient() { Name = str[0], Condition = Condition.Flu });
+                        break;
+                }
+                
+            }
+            // Initializing a list of available doctors
             List<Doctor> doctors = new List<Doctor>()
             {
                 new Doctor()
@@ -54,7 +117,7 @@ namespace Hospital_Simulator
                 }
 
             };
-            // Treatment Machine
+            // Initializing a list of available Treatment Machines
             List<TreatmentMachine> treatmentMachines = new List<TreatmentMachine>()
             {
                 new TreatmentMachine()
@@ -73,7 +136,7 @@ namespace Hospital_Simulator
                     Capability = Capability.Simple
                 }
             };
-            // Treatment Room
+            // Initializing a list of available Treatment Rooms
             List<TreatmentRoom> treatmentRooms = new List<TreatmentRoom>()
             {
                 new TreatmentRoom()
@@ -101,99 +164,96 @@ namespace Hospital_Simulator
                 }
 
             };
-            IEnumerable<Consultation> consultations = new List<Consultation>()
+
+            // Use for testing, adding a consultation to list of consultations
+            List<Consultation> consultations = new List<Consultation>()
             {
                 new Consultation()
                 {
-                    PatientName = "Jonas",
-                    DoctorName = "John",
-                    TreatmentRoomName = "Three",
+                    Patient = new Patient(){Condition = Condition.HeadNeckCancer, Name = "Per"},
+                    Doctor = doctors[1],
+                    TreatmentRoom = treatmentRooms[1],
                     ConsultationDate = DateTime.Today.AddDays(1),
                     RegistrationDate = DateTime.Today
                 }
             };
-            var myDoctors = doctors[0].GetDoctorToPatient(patientX, doctors);
-            var myTreatmentRoom = treatmentRooms[0].GetMyTreatmentRoom(patientX, treatmentRooms);
-            Consultation busyDay;
-            var NextDay = DateTime.Now.AddDays(1);
-            if ((busyDay = consultations.FirstOrDefault(x => x.ConsultationDate == NextDay)) != null)
-            {
-                if (myDoctors.Contains(new Doctor() {Name = busyDay.DoctorName}))
-                {
-                    // && myTreatmentRoom.Contains(new TreatmentRoom() {Name = busyDay.TreatmentRoomName })
-                }
-            }
-            else
-            {
-                var firstOrDefault = myDoctors.FirstOrDefault();
-                var treatmentRoom = myTreatmentRoom.FirstOrDefault();
-                if (firstOrDefault != null && treatmentRoom != null)
-                {
-                     Consultation patientConsultation = new Consultation()
-                        {
-                            PatientName = patientX.Name,
-                            DoctorName = firstOrDefault.Name,
-                            ConsultationDate = NextDay,
-                            RegistrationDate = DateTime.Today,
-                            TreatmentRoomName = treatmentRoom.Name
-                        };                  
-                }
-            }
-            /*
-            IEnumerable<Consultation> consultations = new List<Consultation>()
-            {
-                new Consultation("Peter", "John","Four",DateTime.Today)
-                {
-                    ConsultationDate = DateTime.Today.AddDays(1)
-                }
-            };
+            // Preparing for consultation on the next day
+            var nextDay = DateTime.Today.AddDays(1);
 
-
-            int index = 0;
-            var NextDay = DateTime.Now.AddDays(1);
-            Consultation busyDay;
-            var myDoctors = doctors[0].GetDoctorToPatient(patientX, doctors);
-            var myTreatmentRoom = treatmentRooms[0].GetMyTreatmentRoom(patientX, treatmentRooms);
-
-        
-                // kolla om det finns consultationreg idag               
-             //  var gmm = consultations.FirstOrDefault(x => x.ConsultationDate == NextDay);
-            if ((busyDay = consultations.FirstOrDefault(x => x.ConsultationDate == NextDay)) != null)
+            // Looping thru patients
+            foreach (var patient in patients)
             {
-                if (!myDoctors.Contains(busyDay.Doctor) && !myTreatmentRoom.Contains(busyDay.TreatmentRoom))
-                {
-
-                }
-            }
-            else
-            {
-               Consultation patientConsultation = new Consultation(patientX.Name,myDoctors.FirstOrDefault().Name,myTreatmentRoom.FirstOrDefault().Name,DateTime.Today)
-               {
-                   ConsultationDate = NextDay
-               }; 
-            }
+                // retrieving possible doctors and treatmentroom for the patient
+                var myDoctors = GetDoctorToPatient(patient, doctors);
+                var myTreatmentRoom = GetMyTreatmentRoom(patient, treatmentRooms);
                 
-            */
 
-            //var enumarator = consultations.GetEnumerator();
-
-            //while (enumarator.MoveNext())
-            //{
-            //    var obj = enumarator.Current;
-            //}
-
-            //foreach (var consultation in consultations)
-            //{
-            //    if (!myDoctors.Contains(consultation.Doctor) && !myTreatmentRoom.Contains(consultation.TreatmentRoom))
-            //    {
-            //        consultation.ConsultationDate
-            //    }
-
-            //}
+                while (true)
+                {
+                    // adding the cosultations for a day
+                    var consultationListForTheDay = consultations.Where(x => x.ConsultationDate == nextDay).ToList();
+                    // if consultation found for the specific day, check available doctors and treatmentrooms
+                    if (consultationListForTheDay.Count > 0)
+                    {
+                        var doctorAvailable =
+                        myDoctors.Where(p => !consultationListForTheDay.Any(p2 => p2.Doctor.Name == p.Name)).ToList();
+                        if (doctorAvailable.Count > 0)
+                        {
+                            var roomAvailable =
+                             myTreatmentRoom.Where(r => !consultationListForTheDay.Any(r2 => r2.TreatmentRoom.Name == r.Name))
+                                .ToList();
+                            // if room and doctor available then add consultation for the day
+                            if (roomAvailable.Count > 0)
+                            {
+                                consultations.Add(
+                                new Consultation()
+                                {
+                                Patient = patient,
+                                Doctor = doctorAvailable.FirstOrDefault(),
+                                TreatmentRoom = roomAvailable.FirstOrDefault(),
+                                RegistrationDate = DateTime.Today,
+                                ConsultationDate = nextDay
+                                });
+                                break;
+                            }
+                            // if no available treatmentroom the check for next day
+                            else
+                            {
+                                nextDay = nextDay.AddDays(1);
+                            }
+                        }
+                        else
+                        {
+                            nextDay = nextDay.AddDays(1);
+                        }
+                    }
+                    // if no consultation found on the day then add random possible doctor and treatment room
+                    else
+                    {
+                        Random random = new Random();
+                        consultations.Add(new Consultation()
+                        {
+                            Patient = patient,
+                            Doctor = myDoctors[random.Next(myDoctors.Count)],
+                            TreatmentRoom = myTreatmentRoom[random.Next(myTreatmentRoom.Count)],
+                            RegistrationDate = DateTime.Today,
+                            ConsultationDate = nextDay
+                        });
+                        break;
+                    }
+                }
+            }
+            foreach (var consultation in consultations)
+            {
+                Console.WriteLine(consultation.Patient.Name);
+                Console.WriteLine(consultation.Doctor.Name);
+                Console.WriteLine(consultation.TreatmentRoom.Name);
+                Console.WriteLine(consultation.ConsultationDate);
+                Console.WriteLine(consultation.RegistrationDate);
+                Console.WriteLine();
+                Console.WriteLine();
+            }
+            Console.ReadKey();
         }
-
     }
-
-
 }
-

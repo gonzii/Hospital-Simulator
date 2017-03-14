@@ -12,20 +12,9 @@ namespace Hospital_Simulator
         HeadNeckCancer,
         BreastCancer
     };
-    //enum Topology
-    //{
-    //    HeadNeck,
-    //    Breast
-    //};
     class Patient
     {
         public string Name { get; internal set; }
         public Condition Condition { get; internal set; }
-
-        //public Patient(string name, Condition condition)
-        //{
-        //    Name = name;
-        //    if(condition == Condition.Cancer)
-        //}
     }
 }

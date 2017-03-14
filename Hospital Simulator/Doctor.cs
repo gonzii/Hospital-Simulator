@@ -14,15 +14,16 @@ namespace Hospital_Simulator
     class Doctor
     {
         public List<Roles> _roles;
+        /// <summary>
+        /// Properties for Doctor class
+        /// </summary>
+        public string Name { get; internal set; }
+        public Roles Roles { get; set; }
 
-        //public Doctor(string name)
-        //{
-        //    Name = name;
-        //    _roles = new List<Roles>();
-        //}
-
-        public string Name { get; internal set; }      
-        
+        /// <summary>
+        /// Method retrieving a list of possible doctors for the patient
+        /// </summary>
+        /*
         public List<Doctor> GetDoctorToPatient(Patient patient, List<Doctor> doctorList)
         {
             if (patient.Condition == Condition.HeadNeckCancer || patient.Condition == Condition.BreastCancer)
@@ -38,6 +39,7 @@ namespace Hospital_Simulator
                 return doctors;
             }
         }
+        */
 
 
     }
