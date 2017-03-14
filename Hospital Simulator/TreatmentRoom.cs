@@ -21,15 +21,18 @@ namespace Hospital_Simulator
         {
             if (patient.Condition == Condition.HeadNeckCancer)
             {
+             
                 var treatmentRooms = 
-                    treatmentRoomList.Where(x => x.TreatmentMachine.Capability == Capability.Advanced).ToList();
+                    treatmentRoomList.Where(x => x.TreatmentMachine !=null && x.TreatmentMachine.Capability == Capability.Advanced).ToList();
                 return treatmentRooms;
+                
+
                 //var doctors = doctorList.Where(x => x._roles.Any(m => m == Roles.Oncologist)).ToList();
             }
             else if (patient.Condition == Condition.BreastCancer)
             {
                 var treatmentRooms =
-                    treatmentRoomList.Where(x => x.TreatmentMachine.Capability == Capability.Simple).ToList();
+                    treatmentRoomList.Where(x => x.TreatmentMachine != null && x.TreatmentMachine.Capability == Capability.Simple).ToList();
                 return treatmentRooms;
             }
             else

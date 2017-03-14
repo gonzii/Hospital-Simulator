@@ -15,11 +15,11 @@ namespace Hospital_Simulator
     {
         public List<Roles> _roles;
 
-        public Doctor(string name)
-        {
-            Name = name;
-            _roles = new List<Roles>();
-        }
+        //public Doctor(string name)
+        //{
+        //    Name = name;
+        //    _roles = new List<Roles>();
+        //}
 
         public string Name { get; internal set; }      
         

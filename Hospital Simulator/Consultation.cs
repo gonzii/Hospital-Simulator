@@ -9,20 +9,26 @@ namespace Hospital_Simulator
 {
     class Consultation
     {
-        private Patient _name;
-        private Doctor _doctor;
-        private TreatmentRoom _treatmentRoom;
-        private DateTime _registrationDate;
+  
         private DateTime _consultationDate;
 
-        public Consultation(Patient name, Doctor doctor, TreatmentRoom treatmentRooms, DateTime registrationDate)
-        {
-            this._name = name;
-            this._doctor = doctor;
-            this._treatmentRoom = treatmentRooms;
-            this._registrationDate = DateTime.Now;
-        }
+        public string PatientName { get; set; }
+        public string DoctorName { get; set; }
+        public string TreatmentRoomName { get; set; }
 
+        //public Consultation(string name, string doctor, string treatmentRooms, DateTime registrationDate)
+        //{
+        //    new Patient() {Name = name};
+        //    new Doctor() {Name = doctor};
+        //    new TreatmentRoom() {Name = treatmentRooms};
+        //    RegistrationDate = registrationDate;
+        //}
+
+        //public Patient Patient { get; set; }
+        //public Doctor Doctor { get; set; }
+        //public TreatmentRoom TreatmentRoom { get; set; }
+        public DateTime RegistrationDate { get; set; }
+        public DateTime ConsultationDate { get; set; }
 
     }
 }

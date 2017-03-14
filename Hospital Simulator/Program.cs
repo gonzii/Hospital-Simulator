@@ -16,8 +16,7 @@ namespace Hospital_Simulator
 
         public static void Main(string[] args)
         {
-            IEnumerable<Consultation> consultations = new List<Consultation>();
-
+     
             // Get Patients using readme file
             Patient patientX = new Patient()
             {
@@ -28,23 +27,26 @@ namespace Hospital_Simulator
             // The Doctors
             List<Doctor> doctors = new List<Doctor>()
             {
-                new Doctor("John")
+                new Doctor()
                 {
+                    Name = "John",
                     _roles = new List<Roles>()
                     {
                         Roles.Oncologist
                     }
                 },
-                new Doctor("Anna")
+                new Doctor()
                 {
+                    Name = "Anna",
                     _roles = new List<Roles>()
                     {
                         Roles.Oncologist,
                         Roles.GeneralPractitioner
                     }
                 },
-                new Doctor("Peter")
+                new Doctor()
                 {
+                    Name = "Peter",
                     _roles = new List<Roles>()
                     {
                         Roles.GeneralPractitioner
@@ -99,14 +101,95 @@ namespace Hospital_Simulator
                 }
 
             };
-
-
+            IEnumerable<Consultation> consultations = new List<Consultation>()
+            {
+                new Consultation()
+                {
+                    PatientName = "Jonas",
+                    DoctorName = "John",
+                    TreatmentRoomName = "Three",
+                    ConsultationDate = DateTime.Today.AddDays(1),
+                    RegistrationDate = DateTime.Today
+                }
+            };
             var myDoctors = doctors[0].GetDoctorToPatient(patientX, doctors);
             var myTreatmentRoom = treatmentRooms[0].GetMyTreatmentRoom(patientX, treatmentRooms);
-            foreach (var consultation in consultations)
+            Consultation busyDay;
+            var NextDay = DateTime.Now.AddDays(1);
+            if ((busyDay = consultations.FirstOrDefault(x => x.ConsultationDate == NextDay)) != null)
             {
-                
+                if (myDoctors.Contains(new Doctor() {Name = busyDay.DoctorName}))
+                {
+                    // && myTreatmentRoom.Contains(new TreatmentRoom() {Name = busyDay.TreatmentRoomName })
+                }
             }
+            else
+            {
+                var firstOrDefault = myDoctors.FirstOrDefault();
+                var treatmentRoom = myTreatmentRoom.FirstOrDefault();
+                if (firstOrDefault != null && treatmentRoom != null)
+                {
+                     Consultation patientConsultation = new Consultation()
+                        {
+                            PatientName = patientX.Name,
+                            DoctorName = firstOrDefault.Name,
+                            ConsultationDate = NextDay,
+                            RegistrationDate = DateTime.Today,
+                            TreatmentRoomName = treatmentRoom.Name
+                        };                  
+                }
+            }
+            /*
+            IEnumerable<Consultation> consultations = new List<Consultation>()
+            {
+                new Consultation("Peter", "John","Four",DateTime.Today)
+                {
+                    ConsultationDate = DateTime.Today.AddDays(1)
+                }
+            };
+
+
+            int index = 0;
+            var NextDay = DateTime.Now.AddDays(1);
+            Consultation busyDay;
+            var myDoctors = doctors[0].GetDoctorToPatient(patientX, doctors);
+            var myTreatmentRoom = treatmentRooms[0].GetMyTreatmentRoom(patientX, treatmentRooms);
+
+        
+                // kolla om det finns consultationreg idag               
+             //  var gmm = consultations.FirstOrDefault(x => x.ConsultationDate == NextDay);
+            if ((busyDay = consultations.FirstOrDefault(x => x.ConsultationDate == NextDay)) != null)
+            {
+                if (!myDoctors.Contains(busyDay.Doctor) && !myTreatmentRoom.Contains(busyDay.TreatmentRoom))
+                {
+
+                }
+            }
+            else
+            {
+               Consultation patientConsultation = new Consultation(patientX.Name,myDoctors.FirstOrDefault().Name,myTreatmentRoom.FirstOrDefault().Name,DateTime.Today)
+               {
+                   ConsultationDate = NextDay
+               }; 
+            }
+                
+            */
+
+            //var enumarator = consultations.GetEnumerator();
+
+            //while (enumarator.MoveNext())
+            //{
+            //    var obj = enumarator.Current;
+            //}
+
+            //foreach (var consultation in consultations)
+            //{
+            //    if (!myDoctors.Contains(consultation.Doctor) && !myTreatmentRoom.Contains(consultation.TreatmentRoom))
+            //    {
+            //        consultation.ConsultationDate
+            //    }
+
+            //}
         }
 
     }
